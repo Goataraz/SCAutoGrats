@@ -487,7 +487,7 @@ function SC_OnEvent(self,event,arg1,arg2)
 	if(SC_GratsMessage1 == nil)then
 		SC_GratsMessage1="Grats!";
     end
-    if(not SC_IsMe(arg2))then
+	if(not SC_IsMe(arg2))then
 	    if(event == "CHAT_MSG_GUILD_ACHIEVEMENT" and not SC_GuildDisabledOverride)then SC_DoGrats("GUILD");
 	    elseif(event == "CHAT_MSG_ACHIEVEMENT")then SC_DoGrats("SAY");
 	    elseif(event == "CHAT_MSG_ACHIEVEMENT")then SC_DoGrats("PARTY");
@@ -529,18 +529,17 @@ function SC_GuildWelcome()
 end
 
 function SC_IsMe(nameString)
-	local name,server = split(nameString,"-")
+	local name,server = "","";
+	if (not (nameString == nil)) then
+		name,server = split(nameString,"-");
+	end
 	local myName, myServer = UnitName("player")
-	if(myServer == nil)then
-		myServer = GetRealmName();
-	end
-	if(server == nil and name == myName)then
+	if (name == myName) then
+		-- print("myName: " .. myName .. "; name: " .. name .. "; nameString: " .. nameString);
 		return true;
-	elseif(server ~= nil and name == myName and server == myServer)then
-		return true;
-	else
-		return false;
 	end
+
+	return false;
 end
 
 function SC_CheckOverride()
